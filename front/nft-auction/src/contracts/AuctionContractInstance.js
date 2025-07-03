@@ -42,7 +42,8 @@ class AuctionContract {
     }
 
     async getStatus(){
-        const status = await this.contract.isActive();
+        //await this.connectWithSigner()
+        const status = await this.contract.item();
         return status;
     }
 }

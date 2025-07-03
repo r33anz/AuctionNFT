@@ -22,8 +22,8 @@ function CreateAuction() {
     const init = async () => {
       try {
         const total = await getTotalNFTs();
-        const ans = await AuctionContractInstance.getStatus();
-        console.log("Auction status:", ans);
+        //const ans = await AuctionContractInstance.getStatus();
+        //console.log("Auction status:", ans);
         setTotalNFTs(total);
       } catch (error) {
         console.error("Error initializing NFT service:", error);
