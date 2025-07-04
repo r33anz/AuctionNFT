@@ -3,6 +3,7 @@ import React, { Suspense } from "react";
 const NFTCreationPage = React.lazy(() => import("../components/NFTCreationPage"));
 const SettingNFTAuction = React.lazy(() => import("../components/SettingNFTAuction"));
 const AuctionViewer = React.lazy(() => import("../components/AuctionViewer"));
+const StateAuctionViewer = React.lazy(() => import("../components/StateContracts"));
 
 export const routes = [
     {
@@ -26,6 +27,14 @@ export const routes = [
         element: (
             <Suspense fallback={<div>Loading...</div>}>
                 <AuctionViewer />
+            </Suspense>
+        ),
+    },
+    {
+        path:"/stateAuctionViewer",
+        element: (
+            <Suspense fallback={<div>Loading...</div>}>
+                <StateAuctionViewer />
             </Suspense>
         ),
     }

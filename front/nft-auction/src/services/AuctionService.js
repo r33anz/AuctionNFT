@@ -55,3 +55,24 @@ export const createAuction =
         throw error.message || "Error al crear la subasta.";
     }
 }
+
+export const getStateAuction = async () => {
+    try {
+        return await AuctionContractInstance.getStatus();
+    } catch (error) {
+        console.error("Error al obtener el estado de la subasta:", error);
+        throw error.message || "Error al obtener el estado de la subasta.";
+    }
+}
+
+export const endAuction = async () => {
+    try{
+        await AuctionContractInstance.connectWithSigner();
+        const tx = await AuctionContractInstance.endAuction();
+        await tx.wait();
+        console.log("Subasta finalizada exitosamente:", tx);
+    }catch(error){
+        console.error("Error al finalizar la subasta:", error);
+        throw error.message || "Error al finalizar la subasta.";
+    }
+}

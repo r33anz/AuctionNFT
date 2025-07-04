@@ -42,9 +42,46 @@ class AuctionContract {
     }
 
     async getStatus(){
-        //await this.connectWithSigner()
-        const status = await this.contract.item();
+        const currentBidder = await this.contract.currentBidder();
+        const currentOffer = await this.contract.currentOffer();
+        const itemId = await this.contract.tokenId();
+        const isEnded = await this.contract.isEnded();
+        const isActive = await this.contract.isActive();
+        const item = await this.contract.item();
+
+        const expiresAtTimestamp = Number(item.expireAt); // Convert BigInt to number
+        const expiresAtDate = new Date(expiresAtTimestamp * 1000); // Convert seconds to milliseconds
+        
+        const options = {
+            timeZone: "America/Caracas", // UTC-4
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true, // Use 12-hour format
+        };
+        const readableDate = expiresAtDate.toLocaleString("en-US", options);
+
+        
+        const status = {
+            currentBidder: currentBidder,
+            currentOffer: ethers.formatEther(currentOffer),
+            itemId: itemId,
+            isEnded: isEnded,
+            isActive: isActive,
+            item: {
+                name: item[0],
+                description: item[1],
+                expireAt: readableDate, 
+            }
+        };
+
         return status;
+    }
+
+    async endAuction() {
+        return await this.contract.endAuction();
     }
 }
 

@@ -5,7 +5,7 @@ function AuctionViewer() {
   const [currentView, setCurrentView] = useState("dashboard") // "dashboard" o "auction"
   const [selectedAuction, setSelectedAuction] = useState(null)
   const [bidAmount, setBidAmount] = useState("")
-  const [userAddress] = useState("0x742d35Cc6634C0532925a3b8D4C9db96590c4C5d") // Dirección del usuario actual
+  const [userAddress] = useState("0x742d35Cc6634C0532925a3b8D4C9db96590c4C5d") 
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
 

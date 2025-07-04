@@ -198,16 +198,23 @@ contract Subasta is ERC721Holder{
         }
 
         if(!isEnded){
-            isEnded = true;
+            if(currentBidder == address(0)){
+                returnNFTToBeneficiary();
+                emit AuctionEnded(address(0), 0, block.timestamp);
+                isEnded = true;
+                
+            }else{
+                isEnded = true;
 
-            (bool success,)  = beneficiary.call{value:currentOffer}("");
-            if(!success){
-                revert Subasta_TransactionFailedToBeneficiary();
+                (bool success,)  = beneficiary.call{value:currentOffer}("");
+                if(!success){
+                    revert Subasta_TransactionFailedToBeneficiary();
+                }
+
+                nftContract.safeTransferFrom(address(this), currentBidder, tokenId); //transfiere el NFT al ganador
+                returnFunds();
+                emit AuctionEnded(currentBidder, currentOffer, block.timestamp);
             }
-
-            nftContract.safeTransferFrom(address(this), currentBidder, tokenId); //transfiere el NFT al ganador
-            returnFunds();
-            emit AuctionEnded(currentBidder, currentOffer, block.timestamp);
         }else{
             revert Subasta_FundsHaveReturned();
         }
@@ -275,5 +282,14 @@ contract Subasta is ERC721Holder{
         isCurrentWinner = (currentBidder == bidder && currentOffer > 0);
         
         return (currentOffert, lastOffer, isRegistered, isCurrentWinner);
+    }
+
+    //en caso de no haber ganador, devuelve el NFT al beneficiario
+    //y resetea el tokenId a 0
+    function returnNFTToBeneficiary() private {
+        nftContract.safeTransferFrom(address(this), beneficiary, tokenId);
+        tokenId = 0; 
+        isActive = false; 
+        isEnded = true;
     }
 }

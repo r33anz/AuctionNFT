@@ -4,13 +4,10 @@ import { getTotalNFTs,getTokenMetadata } from "../services/NFTContractService"
 import { createAuction } from "../services/AuctionService";
 import { ethers } from "ethers";
 
-//
-import AuctionContractInstance from "../contracts/AuctionContractInstance";
-
 function CreateAuction() {
   const [nftId, setNftId] = useState("");
   const [startingPrice, setStartingPrice] = useState("");
-  const [auctionDuration, setAuctionDuration] = useState("24");
+  const [auctionDuration, setAuctionDuration] = useState("5");
   const [nftData, setNftData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -88,7 +85,7 @@ function CreateAuction() {
 
     // Limpiar formulario
     setStartingPrice("")
-    setAuctionDuration("24")
+    setAuctionDuration("5")
   }
 
   function minutesToText(minutes) {
